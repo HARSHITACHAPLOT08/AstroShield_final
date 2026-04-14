@@ -1,0 +1,21 @@
+{
+  "stormHistory": [
+    { "date": "2025-12", "gScale": 2, "impact": 120 },
+    { "date": "2026-01", "gScale": 3, "impact": 210 },
+    { "date": "2026-02", "gScale": 1, "impact": 82 },
+    { "date": "2026-03", "gScale": 4, "impact": 340 },
+    { "date": "2026-04", "gScale": 3, "impact": 275 }
+  ],
+  "cycleTrend": [
+    { "phase": "2019", "sunspots": 16, "storms": 4 },
+    { "phase": "2021", "sunspots": 72, "storms": 12 },
+    { "phase": "2023", "sunspots": 118, "storms": 21 },
+    { "phase": "2025", "sunspots": 184, "storms": 32 }
+  ],
+  "reports": [
+    "Executive impact briefing",
+    "Transformer risk digest",
+    "Satellite fleet exposure report",
+    "Aviation operations summary"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "stats": [
+    { "label": "Solar Wind Speed", "value": 642, "unit": "km/s", "change": 12.4, "severity": "high", "sparkline": [510, 544, 573, 596, 618, 642] },
+    { "label": "Kp Index", "value": 6, "unit": "Kp", "change": 18.2, "severity": "critical", "sparkline": [3, 3, 4, 5, 5, 6] },
+    { "label": "Bz Component", "value": -13.8, "unit": "nT", "change": -8.5, "severity": "critical", "sparkline": [-2, -4, -6, -9, -11, -13.8] },
+    { "label": "Active CMEs", "value": 4, "unit": "events", "change": 33.0, "severity": "moderate", "sparkline": [1, 1, 2, 3, 3, 4] },
+    { "label": "Storm Probability", "value": 78, "unit": "%", "change": 9.0, "severity": "high", "sparkline": [42, 51, 58, 64, 72, 78] },
+    { "label": "X-Ray Flux", "value": 2.4, "unit": "M-class", "change": 16.7, "severity": "high", "sparkline": [0.6, 0.8, 1.0, 1.4, 1.9, 2.4] }
+  ],
+  "solarActivity": [
+    { "time": "00:00", "wind": 511, "bz": -3, "kp": 3 },
+    { "time": "04:00", "wind": 530, "bz": -5, "kp": 4 },
+    { "time": "08:00", "wind": 574, "bz": -8, "kp": 4 },
+    { "time": "12:00", "wind": 610, "bz": -10, "kp": 5 },
+    { "time": "16:00", "wind": 628, "bz": -12, "kp": 6 },
+    { "time": "20:00", "wind": 642, "bz": -13.8, "kp": 6 }
+  ],
+  "geomagneticScale": [
+    { "name": "G1", "value": 22 },
+    { "name": "G2", "value": 38 },
+    { "name": "G3", "value": 71 },
+    { "name": "G4", "value": 84 },
+    { "name": "G5", "value": 46 }
+  ],
+  "timeline": [
+    { "time": "02:15 UTC", "event": "Coronal hole stream intensified", "impact": "Elevated solar wind speed across L1" },
+    { "time": "06:40 UTC", "event": "CME sheath arrival modeled", "impact": "Grid operators placed on watch" },
+    { "time": "11:20 UTC", "event": "Southward Bz deepened", "impact": "Polar routes reassessed" },
+    { "time": "15:05 UTC", "event": "Kp crossed G3 threshold", "impact": "Satellite drag warnings issued" }
+  ]
+}

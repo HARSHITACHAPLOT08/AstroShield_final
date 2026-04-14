@@ -1,0 +1,17 @@
+{
+  "name": "Aisha Rao",
+  "title": "Mission Control Lead",
+  "organization": "AstroShield Ops",
+  "email": "aisha@astroshield.ai",
+  "timezone": "Asia/Kolkata",
+  "channels": [
+    { "name": "Email", "enabled": true },
+    { "name": "SMS", "enabled": true },
+    { "name": "Slack", "enabled": false }
+  ],
+  "preferences": [
+    "High-latitude grid watchlists",
+    "Satellite safe-mode recommendations",
+    "Aviation polar reroute notices"
+  ]
+}

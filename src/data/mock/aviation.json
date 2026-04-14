@@ -1,0 +1,47 @@
+{
+  "routes": [
+    {
+      "id": "rt-1",
+      "airline": "Polar Air 221",
+      "from": "New York",
+      "to": "Tokyo",
+      "risk": "High",
+      "eta": "13h 05m",
+      "fuelDelta": 9.2,
+      "coordinates": [[40.71, -74.0], [62.0, -40.0], [66.0, 10.0], [35.68, 139.69]],
+      "alternate": [[40.71, -74.0], [51.5, -20.0], [48.8, 40.0], [35.68, 139.69]]
+    },
+    {
+      "id": "rt-2",
+      "airline": "Auric 118",
+      "from": "London",
+      "to": "Los Angeles",
+      "risk": "Moderate",
+      "eta": "10h 45m",
+      "fuelDelta": 5.1,
+      "coordinates": [[51.5, -0.1], [63.0, -25.0], [65.0, -90.0], [34.05, -118.24]],
+      "alternate": [[51.5, -0.1], [48.8, -20.0], [42.0, -80.0], [34.05, -118.24]]
+    },
+    {
+      "id": "rt-3",
+      "airline": "SkyReach 019",
+      "from": "Doha",
+      "to": "Chicago",
+      "risk": "Low",
+      "eta": "14h 12m",
+      "fuelDelta": 1.7,
+      "coordinates": [[25.29, 51.53], [42.0, 30.0], [49.0, -10.0], [41.88, -87.63]],
+      "alternate": [[25.29, 51.53], [38.0, 32.0], [44.0, -2.0], [41.88, -87.63]]
+    }
+  ],
+  "zones": [
+    { "name": "HF Blackout Belt", "severity": 78 },
+    { "name": "GPS Degradation Zone", "severity": 63 },
+    { "name": "Auroral Diversion Corridor", "severity": 82 }
+  ],
+  "incidents": [
+    { "date": "2025-11-03", "title": "Polar reroute during S3 radiation storm" },
+    { "date": "2025-08-18", "title": "HF comms degradation over Greenland sector" },
+    { "date": "2024-05-10", "title": "Severe space weather dispatch restrictions" }
+  ]
+}

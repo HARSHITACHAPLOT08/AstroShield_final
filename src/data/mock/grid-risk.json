@@ -1,0 +1,7 @@
+[
+  { "id": "gr-1", "name": "Quebec Corridor", "country": "Canada", "lat": 46.8, "lng": -71.2, "risk": 88, "exposure": 312, "impact": 920000000, "latitudeBand": "High latitude" },
+  { "id": "gr-2", "name": "Nordic Interconnect", "country": "Norway", "lat": 60.4, "lng": 10.2, "risk": 82, "exposure": 188, "impact": 610000000, "latitudeBand": "Auroral oval" },
+  { "id": "gr-3", "name": "Great Lakes Grid", "country": "United States", "lat": 44.9, "lng": -84.6, "risk": 71, "exposure": 274, "impact": 540000000, "latitudeBand": "Mid latitude" },
+  { "id": "gr-4", "name": "Hokkaido Ring", "country": "Japan", "lat": 43.1, "lng": 141.3, "risk": 63, "exposure": 121, "impact": 340000000, "latitudeBand": "Mid latitude" },
+  { "id": "gr-5", "name": "Patagonia Line", "country": "Argentina", "lat": -50.3, "lng": -72.1, "risk": 67, "exposure": 84, "impact": 190000000, "latitudeBand": "Southern high latitude" }
+]

@@ -1,0 +1,20 @@
+{
+  "assets": [
+    { "id": "sat-1", "name": "Aurora-12", "orbit": "LEO", "longitude": -40, "latitude": 18, "risk": "High", "operator": "OrbitalCom", "radiation": 76, "drag": 58 },
+    { "id": "sat-2", "name": "Meridian Relay", "orbit": "MEO", "longitude": 74, "latitude": -10, "risk": "Moderate", "operator": "GeoCore", "radiation": 54, "drag": 34 },
+    { "id": "sat-3", "name": "Atlas GEO-7", "orbit": "GEO", "longitude": 128, "latitude": 4, "risk": "Critical", "operator": "SkyBridge", "radiation": 88, "drag": 12 },
+    { "id": "sat-4", "name": "Sentinel Mesh", "orbit": "LEO", "longitude": -152, "latitude": 28, "risk": "Low", "operator": "PolarNet", "radiation": 22, "drag": 41 }
+  ],
+  "alerts": [
+    "GEO payload safe-mode recommended",
+    "LEO drag compensation burn suggested",
+    "Star tracker error rate elevated in polar passes"
+  ],
+  "exposure": [
+    { "time": "00:00", "radiation": 42, "drag": 18 },
+    { "time": "06:00", "radiation": 51, "drag": 22 },
+    { "time": "12:00", "radiation": 64, "drag": 39 },
+    { "time": "18:00", "radiation": 78, "drag": 56 },
+    { "time": "24:00", "radiation": 88, "drag": 62 }
+  ]
+}

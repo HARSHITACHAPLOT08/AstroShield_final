@@ -1,0 +1,42 @@
+[
+  {
+    "id": "al-101",
+    "title": "Geomagnetic Alert: North America",
+    "severity": "Alert",
+    "timestamp": "2026-04-14T07:15:00Z",
+    "summary": "Transformer neutral currents trending above baseline across high-latitude corridors.",
+    "target": "Power Grid",
+    "action": "Prepare load redistribution and inspect GIC monitors.",
+    "status": "open"
+  },
+  {
+    "id": "al-102",
+    "title": "HF Blackout Watch",
+    "severity": "Warning",
+    "timestamp": "2026-04-14T08:20:00Z",
+    "summary": "Polar communications degradation expected within the next 90 minutes.",
+    "target": "Aviation",
+    "action": "Review alternate SATCOM and reroute readiness.",
+    "status": "investigating"
+  },
+  {
+    "id": "al-103",
+    "title": "Radiation Storm Escalation",
+    "severity": "Emergency",
+    "timestamp": "2026-04-14T09:05:00Z",
+    "summary": "Elevated proton flux may affect GEO payloads and star tracker performance.",
+    "target": "Satellites",
+    "action": "Suspend sensitive payload operations and shift to safe configuration.",
+    "status": "open"
+  },
+  {
+    "id": "al-104",
+    "title": "Forecast Confidence Upgrade",
+    "severity": "Watch",
+    "timestamp": "2026-04-14T10:40:00Z",
+    "summary": "AI ensemble confidence has improved on the 24h G4 scenario.",
+    "target": "Operations",
+    "action": "Share the updated confidence pack with regional leads.",
+    "status": "resolved"
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "forecast": [
+    { "window": "24h", "probability": 78, "confidence": 92 },
+    { "window": "48h", "probability": 64, "confidence": 81 },
+    { "window": "72h", "probability": 51, "confidence": 72 }
+  ],
+  "flareClass": [
+    { "name": "M-class", "value": 82 },
+    { "name": "X-class", "value": 36 }
+  ],
+  "drivers": [
+    { "name": "Southward Bz", "value": 0.89 },
+    { "name": "CME Speed", "value": 0.78 },
+    { "name": "Coronal Hole Stream", "value": 0.64 },
+    { "name": "Active Region Complexity", "value": 0.59 },
+    { "name": "Proton Flux", "value": 0.41 }
+  ],
+  "performance": [
+    { "label": "Accuracy", "value": 94 },
+    { "label": "Precision", "value": 91 },
+    { "label": "Recall", "value": 88 }
+  ],
+  "confusionMatrix": [
+    [184, 12],
+    [19, 131]
+  ],
+  "history": [
+    { "date": "Apr 08", "predicted": 58, "observed": 54 },
+    { "date": "Apr 09", "predicted": 61, "observed": 63 },
+    { "date": "Apr 10", "predicted": 49, "observed": 46 },
+    { "date": "Apr 11", "predicted": 72, "observed": 68 },
+    { "date": "Apr 12", "predicted": 76, "observed": 74 },
+    { "date": "Apr 13", "predicted": 70, "observed": 73 }
+  ]
+}

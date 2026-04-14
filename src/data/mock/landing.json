@@ -1,0 +1,62 @@
+{
+  "ticker": [
+    { "label": "Solar Wind", "value": "642 km/s" },
+    { "label": "X-Ray Flux", "value": "M2.4 rising" },
+    { "label": "Bz Component", "value": "-13.8 nT" },
+    { "label": "Active Alerts", "value": "07 open" }
+  ],
+  "sources": [
+    "NOAA SWPC operational streams",
+    "NASA DONKI CME and flare events",
+    "DSCOVR solar wind measurements",
+    "Ground magnetometer networks",
+    "Commercial grid telemetry feeds"
+  ],
+  "workflow": [
+    "Ingest multi-source heliophysics telemetry",
+    "Fuse orbital, terrestrial, and historical risk signals",
+    "Score infrastructure impact with explainable models",
+    "Trigger response playbooks before storm arrival"
+  ],
+  "stakeholders": [
+    "Transmission operators",
+    "Satellite fleet teams",
+    "Aviation dispatchers",
+    "Defense and emergency centers"
+  ],
+  "modules": [
+    {
+      "title": "Solar Monitor",
+      "summary": "Track flares, CMEs, coronal holes, and Bz shifts with mission-control visuals."
+    },
+    {
+      "title": "Grid Risk",
+      "summary": "Map transformer exposure by latitude, storm severity, and economic consequence."
+    },
+    {
+      "title": "Aviation Impact",
+      "summary": "Simulate reroutes around polar blackouts and quantify fuel tradeoffs."
+    },
+    {
+      "title": "Alert Center",
+      "summary": "Escalate operational alerts across email, SMS, and command dashboards."
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "North Atlantic Energy",
+      "quote": "AstroShield turns space weather into dispatch-ready action in under sixty seconds.",
+      "role": "Grid Resilience Program"
+    },
+    {
+      "name": "OrbitalCom",
+      "quote": "The fleet risk timeline helped us stagger maneuvers before radiation levels peaked.",
+      "role": "Satellite Ops"
+    },
+    {
+      "name": "SkyLine Polar",
+      "quote": "Our dispatchers finally have one place to assess blackouts, reroutes, and passenger impact.",
+      "role": "Flight Planning"
+    }
+  ]
+}

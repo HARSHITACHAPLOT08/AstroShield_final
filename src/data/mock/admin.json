@@ -1,0 +1,18 @@
+{
+  "users": [
+    { "name": "Aisha Rao", "email": "aisha@astroshield.ai", "role": "Admin", "status": "Active" },
+    { "name": "Marcus Bell", "email": "marcus@astroshield.ai", "role": "Operator", "status": "Active" },
+    { "name": "Nina Duarte", "email": "nina@astroshield.ai", "role": "Analyst", "status": "Pending" }
+  ],
+  "apiHealth": [
+    { "name": "NOAA SWPC", "status": "Healthy", "latency": 164 },
+    { "name": "NASA DONKI", "status": "Healthy", "latency": 221 },
+    { "name": "DSCOVR Feed", "status": "Degraded", "latency": 410 }
+  ],
+  "logs": [
+    "10:12 UTC - Grid risk model refreshed",
+    "10:15 UTC - Alert escalation policy evaluated",
+    "10:19 UTC - DONKI event ingest completed",
+    "10:22 UTC - Satellite radiation model retrained"
+  ]
+}
