@@ -24,6 +24,7 @@ export default function SatellitesPage() {
           <LineSignalChart
             title="Radiation and Drag Exposure"
             labels={data.exposure.map((item) => item.time)}
+            dynamic
             datasets={[
               { label: "Radiation", data: data.exposure.map((item) => item.radiation), color: "#f472b6" },
               { label: "Drag", data: data.exposure.map((item) => item.drag), color: "#22d3ee" }

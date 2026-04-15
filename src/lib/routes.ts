@@ -7,6 +7,9 @@ import {
   Home,
   Radar,
   Satellite,
+  Sparkles,
+  SunMedium,
+  Leaf,
   Settings,
   Shield,
   UserCircle2
@@ -15,6 +18,10 @@ import {
 export const appRoutes = [
   { href: "/dashboard", label: "Overview", icon: Home },
   { href: "/solar-monitor", label: "Solar Monitor", icon: Activity },
+  { href: "/solar-optimizer", label: "Solar Optimizer", icon: SunMedium },
+  { href: "/energy-access", label: "Energy Access", icon: Leaf },
+  { href: "/space-energy-future", label: "Space Energy Future", icon: Sparkles },
+  { href: "/impact-dashboard", label: "Impact Dashboard", icon: BarChart3 },
   { href: "/ai-predictions", label: "AI Predictions", icon: BrainCircuit },
   { href: "/grid-risk", label: "Grid Risk", icon: Grid2X2 },
   { href: "/satellites", label: "Satellites", icon: Satellite },

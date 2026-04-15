@@ -7,10 +7,11 @@ import { cn } from "@/lib/utils";
 
 export function BottomNav() {
   const pathname = usePathname();
-  const primaryRoutes = appRoutes.slice(0, 5);
+  const primaryRoutes = appRoutes.filter((route) => route.href !== "/login");
 
   return (
-    <div className="glass-panel fixed inset-x-4 bottom-4 z-40 grid grid-cols-5 rounded-[24px] p-2 lg:hidden">
+    <div className="glass-panel fixed inset-x-4 bottom-4 z-40 overflow-x-auto rounded-[24px] p-2 lg:hidden">
+      <div className="grid min-w-max grid-flow-col auto-cols-[minmax(92px,1fr)] gap-2">
       {primaryRoutes.map((route) => {
         const Icon = route.icon;
         const active =
@@ -30,6 +31,7 @@ export function BottomNav() {
           </Link>
         );
       })}
+      </div>
     </div>
   );
 }

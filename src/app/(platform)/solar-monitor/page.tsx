@@ -1,7 +1,7 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { LineSignalChart } from "@/components/charts/line-signal-chart";
+import { RechartsGlowBar } from "@/components/charts/recharts-glow-bar";
 import { GlassCard } from "@/components/shared/glass-card";
 import { PageHeader } from "@/components/shared/page-header";
 import { SolarDisk } from "@/components/visuals/solar-disk";
@@ -22,14 +22,19 @@ export default function SolarMonitorPage() {
 
       <div className="grid gap-4 md:grid-cols-3">
         {data?.cmes.map((cme) => (
-          <GlassCard key={cme.name} className="bg-gradient-to-br from-amber-400/12 via-slate-950/40 to-rose-500/10">
-            <p className="text-sm uppercase tracking-[0.22em] text-slate-400">{cme.direction}</p>
-            <h2 className="mt-3 font-display text-3xl text-white">{cme.name}</h2>
-            <div className="mt-5 flex justify-between text-sm text-slate-300">
+          <GlassCard
+            key={cme.name}
+            className="border-amber-300/18 bg-gradient-to-br from-amber-400/14 via-slate-950/50 to-rose-500/12 transition hover:border-amber-300/45 hover:shadow-[0_0_30px_rgba(251,191,36,0.2)]"
+          >
+            <p className="text-xs uppercase tracking-[0.24em] text-amber-100/85">CME Direction</p>
+            <h2 className="mt-2 text-lg font-semibold text-white/90">{formatCmeName(cme.name)}</h2>
+            <p className="mt-1 text-sm uppercase tracking-[0.2em] text-amber-200">{cme.direction}</p>
+            <div className="mt-5 flex justify-between text-sm text-slate-200">
               <span>{cme.speed} km/s</span>
               <span>ETA {cme.eta}</span>
               <span>{cme.confidence}% conf.</span>
             </div>
+            <div className="mt-3 h-px w-full bg-gradient-to-r from-transparent via-amber-200/30 to-transparent" />
           </GlassCard>
         ))}
       </div>
@@ -40,6 +45,7 @@ export default function SolarMonitorPage() {
           <LineSignalChart
             title="Solar Wind Bz 48h"
             labels={data.bz48h.map((item) => item.time)}
+            dynamic={true}
             datasets={[{ label: "Bz", data: data.bz48h.map((item) => item.value), color: "#f59e0b" }]}
           />
         ) : null}
@@ -74,21 +80,30 @@ export default function SolarMonitorPage() {
           </div>
         </GlassCard>
 
-        <GlassCard>
-          <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Historical Timeline</p>
-          <div className="mt-6 h-[280px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data?.history}>
-                <CartesianGrid stroke="rgba(148,163,184,0.08)" vertical={false} />
-                <XAxis dataKey="date" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
-                <Tooltip contentStyle={{ background: "#020617", border: "1px solid rgba(34,211,238,0.2)" }} />
-                <Bar dataKey="events" fill="#22d3ee" radius={[12, 12, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </GlassCard>
+        <RechartsGlowBar
+          title="Historical Timeline"
+          description="CME events recorded over the past 30 days"
+          data={data?.history ?? []}
+          dataKey="events"
+          dateKey="date"
+          color="#22d3ee"
+          height={280}
+        />
       </div>
     </div>
   );
+}
+
+function formatCmeName(name: string) {
+  const cleaned = name.replace(/[-_]/g, " ").trim();
+  if (cleaned.length <= 22) {
+    return cleaned;
+  }
+
+  const cmeIdMatch = cleaned.match(/CME\s*\d+/i);
+  if (cmeIdMatch?.[0]) {
+    return cmeIdMatch[0].toUpperCase();
+  }
+
+  return `${cleaned.slice(0, 22)}...`;
 }

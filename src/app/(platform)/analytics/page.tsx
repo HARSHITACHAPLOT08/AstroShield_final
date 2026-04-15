@@ -1,9 +1,12 @@
 "use client";
 
-import { Area, AreaChart, Bar, BarChart, PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { ResponsiveContainer } from "recharts";
 import { GlassCard } from "@/components/shared/glass-card";
 import { PageHeader } from "@/components/shared/page-header";
 import { Input } from "@/components/ui/input";
+import { RechartsGlowBar } from "@/components/charts/recharts-glow-bar";
+import { RechartsGlowArea } from "@/components/charts/recharts-glow-area";
+import { RechartsGlowRadar } from "@/components/charts/recharts-glow-radar";
 import { useAnalyticsData } from "@/hooks/use-platform-data";
 
 export default function AnalyticsPage() {
@@ -26,49 +29,39 @@ export default function AnalyticsPage() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <GlassCard>
-          <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Storm History Database</p>
-          <div className="mt-6 h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data?.stormHistory}>
-                <XAxis dataKey="date" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
-                <Tooltip contentStyle={{ background: "#020617", border: "1px solid rgba(34,211,238,0.2)" }} />
-                <Bar dataKey="gScale" fill="#22d3ee" radius={[10, 10, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </GlassCard>
+        <RechartsGlowBar
+          title="Storm History Database"
+          description="Geomagnetic storm severity records (G-scale impact)"
+          data={data?.stormHistory ?? []}
+          dataKey="gScale"
+          dateKey="date"
+          color="#22d3ee"
+          height={300}
+        />
 
-        <GlassCard>
-          <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Economic Impact Trend</p>
-          <div className="mt-6 h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data?.stormHistory}>
-                <XAxis dataKey="date" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
-                <Tooltip contentStyle={{ background: "#020617", border: "1px solid rgba(34,211,238,0.2)" }} />
-                <Area type="monotone" dataKey="impact" stroke="#f472b6" fill="#f472b633" strokeWidth={2.2} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </GlassCard>
+        <RechartsGlowArea
+          title="Economic Impact Trend"
+          description="Estimated infrastructure risk exposure by storm date"
+          data={data?.stormHistory ?? []}
+          dataKey="impact"
+          dateKey="date"
+          color="#f472b6"
+          height={300}
+          areaType="monotone"
+        />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
-        <GlassCard>
-          <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Solar Cycle Trends</p>
-          <div className="mt-6 h-[320px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={radarData}>
-                <PolarGrid stroke="rgba(148,163,184,0.16)" />
-                <PolarAngleAxis dataKey="subject" stroke="#94a3b8" />
-                <Radar dataKey="storms" stroke="#22d3ee" fill="#22d3ee55" />
-                <Radar dataKey="sunspots" stroke="#f472b6" fill="#f472b655" />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
-        </GlassCard>
+        <RechartsGlowRadar
+          title="Solar Cycle Trends"
+          description="Historical storms vs. sunspot activity normalized across solar phases"
+          data={radarData}
+          datasets={[
+            { key: "storms", stroke: "#22d3ee", fill: "#22d3ee55" },
+            { key: "sunspots", stroke: "#f472b6", fill: "#f472b655" }
+          ]}
+          height={320}
+        />
 
         <GlassCard>
           <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Custom Report Builder</p>
