@@ -114,9 +114,17 @@ function SolarDiskCanvas({
             "relative rounded-full bg-[radial-gradient(circle_at_35%_35%,rgba(254,240,138,0.98),rgba(251,191,36,0.96)_24%,rgba(251,146,60,0.92)_52%,rgba(234,88,12,0.84)_78%)] shadow-[0_0_90px_rgba(251,146,60,0.38)]",
             enlarged ? "h-[460px] w-[460px]" : "h-72 w-72"
           )}
-          animate={{ scale: [0.99, 1.02, 0.99] }}
+          animate={{
+            scale: [0.99, 1.02, 0.99],
+            x: [0, 3, -2, 0],
+            y: [0, -2, 2, 0],
+            rotate: 360
+          }}
           transition={{
-            scale: { duration: 7, ease: "easeInOut", repeat: Infinity }
+            scale: { duration: 7, ease: "easeInOut", repeat: Infinity },
+            x: { duration: 12, ease: "easeInOut", repeat: Infinity },
+            y: { duration: 10, ease: "easeInOut", repeat: Infinity },
+            rotate: { duration: 95, ease: "linear", repeat: Infinity }
           }}
         >
           {/* Inner rotating corona */}
@@ -124,6 +132,17 @@ function SolarDiskCanvas({
             className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_40%_40%,rgba(255,255,200,0.12),transparent_60%)]"
             animate={{ rotate: 360 }}
             transition={{ duration: 22, ease: "linear", repeat: Infinity }}
+          />
+
+          {/* Rotating convection band for surface movement */}
+          <motion.div
+            className="absolute inset-[6%] rounded-full"
+            style={{
+              background:
+                "conic-gradient(from_0deg,transparent_0deg,rgba(255,214,102,0.16)_48deg,transparent_112deg,rgba(255,153,51,0.12)_172deg,transparent_236deg,rgba(255,237,160,0.16)_300deg,transparent_360deg)"
+            }}
+            animate={{ rotate: [0, 360], opacity: [0.35, 0.58, 0.35] }}
+            transition={{ duration: 26, ease: "linear", repeat: Infinity }}
           />
           
           {/* Surface texture shimmer */}
@@ -158,6 +177,11 @@ function SolarDiskCanvas({
               key={region.region}
               className="group absolute"
               style={{ left: `${region.x}%`, top: `${region.y}%` }}
+              animate={{
+                x: [0, 1.6 + index * 0.25, -1.2 - index * 0.18, 0],
+                y: [0, -1.2 - index * 0.2, 1 + index * 0.15, 0]
+              }}
+              transition={{ duration: 6.2 + index * 0.8, ease: "easeInOut", repeat: Infinity }}
             >
               {/* Flare risk indicator pulsing glow */}
               <motion.span

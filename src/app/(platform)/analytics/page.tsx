@@ -11,7 +11,11 @@ import { useAnalyticsData } from "@/hooks/use-platform-data";
 
 export default function AnalyticsPage() {
   const { data } = useAnalyticsData();
-  const radarData = data?.cycleTrend.map((item) => ({ subject: item.phase, storms: item.storms, sunspots: item.sunspots / 5 }));
+  const radarData = (data?.cycleTrend ?? []).map((item) => ({
+    subject: item.phase,
+    storms: item.storms,
+    sunspots: item.sunspots / 5
+  }));
 
   return (
     <div className="space-y-6">

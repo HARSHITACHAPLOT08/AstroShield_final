@@ -461,15 +461,26 @@ async function buildSolarMonitorData(): Promise<SolarMonitorData> {
           : "Minor operational effect"
     }));
 
-  const history = Array.from(
-    telemetry.flareRows.reduce((map, row) => {
-      const key = formatDayLabel(row.beginTime);
-      map.set(key, (map.get(key) ?? 0) + 1);
-      return map;
-    }, new Map<string, number>())
-  )
-    .slice(-4)
-    .map(([date, events]) => ({ date, events }));
+  const flareCountsByIsoDay = telemetry.flareRows.reduce((map, row) => {
+    const dayKey = new Date(row.beginTime).toISOString().slice(0, 10);
+    map.set(dayKey, (map.get(dayKey) ?? 0) + 1);
+    return map;
+  }, new Map<string, number>());
+
+  let history = Array.from({ length: 10 }, (_, index) => {
+    const date = new Date();
+    date.setUTCHours(0, 0, 0, 0);
+    date.setUTCDate(date.getUTCDate() - (9 - index));
+    const dayKey = date.toISOString().slice(0, 10);
+    return {
+      date: formatDayLabel(`${dayKey}T00:00:00Z`),
+      events: flareCountsByIsoDay.get(dayKey) ?? 0
+    };
+  });
+
+  if (history.filter((point) => point.events > 0).length < 3) {
+    history = solarFallback.history.map((point) => ({ ...point }));
+  }
 
   return {
     cmes: cmes.length ? cmes : solarFallback.cmes,
@@ -643,31 +654,53 @@ async function buildProfileData(): Promise<ProfileData> {
   return profileFallback;
 }
 
+function getFallbackResource<T extends keyof PlatformResourceMap>(resource: T): PlatformResourceMap[T] {
+  const fallbackMap: PlatformResourceMap = {
+    landing: landingFallback,
+    dashboard: dashboardFallback,
+    alerts: alertsFallback,
+    "solar-monitor": solarFallback,
+    "ai-predictions": predictionsFallback,
+    "grid-risk": gridFallback,
+    satellites: satellitesFallback,
+    aviation: aviationFallback,
+    analytics: analyticsFallback,
+    admin: adminFallback,
+    profile: profileFallback
+  };
+
+  return fallbackMap[resource] as PlatformResourceMap[T];
+}
+
 export async function getPlatformResource<T extends keyof PlatformResourceMap>(resource: T): Promise<PlatformResourceMap[T]> {
-  switch (resource) {
-    case "landing":
-      return (await buildLandingData()) as PlatformResourceMap[T];
-    case "dashboard":
-      return (await buildDashboardData()) as PlatformResourceMap[T];
-    case "alerts":
-      return (await buildAlertsData()) as PlatformResourceMap[T];
-    case "solar-monitor":
-      return (await buildSolarMonitorData()) as PlatformResourceMap[T];
-    case "ai-predictions":
-      return (await buildPredictionData()) as PlatformResourceMap[T];
-    case "grid-risk":
-      return (await buildGridRiskData()) as PlatformResourceMap[T];
-    case "satellites":
-      return (await buildSatelliteData()) as PlatformResourceMap[T];
-    case "aviation":
-      return (await buildAviationData()) as PlatformResourceMap[T];
-    case "analytics":
-      return (await buildAnalyticsData()) as PlatformResourceMap[T];
-    case "admin":
-      return (await buildAdminData()) as PlatformResourceMap[T];
-    case "profile":
-      return (await buildProfileData()) as PlatformResourceMap[T];
-    default:
-      throw new Error(`Unsupported platform resource: ${resource}`);
+  try {
+    switch (resource) {
+      case "landing":
+        return (await buildLandingData()) as PlatformResourceMap[T];
+      case "dashboard":
+        return (await buildDashboardData()) as PlatformResourceMap[T];
+      case "alerts":
+        return (await buildAlertsData()) as PlatformResourceMap[T];
+      case "solar-monitor":
+        return (await buildSolarMonitorData()) as PlatformResourceMap[T];
+      case "ai-predictions":
+        return (await buildPredictionData()) as PlatformResourceMap[T];
+      case "grid-risk":
+        return (await buildGridRiskData()) as PlatformResourceMap[T];
+      case "satellites":
+        return (await buildSatelliteData()) as PlatformResourceMap[T];
+      case "aviation":
+        return (await buildAviationData()) as PlatformResourceMap[T];
+      case "analytics":
+        return (await buildAnalyticsData()) as PlatformResourceMap[T];
+      case "admin":
+        return (await buildAdminData()) as PlatformResourceMap[T];
+      case "profile":
+        return (await buildProfileData()) as PlatformResourceMap[T];
+      default:
+        throw new Error(`Unsupported platform resource: ${resource}`);
+    }
+  } catch {
+    return getFallbackResource(resource);
   }
 }

@@ -3,8 +3,22 @@
 import { useEffect, useMemo, useState } from "react";
 import * as d3 from "d3";
 import { feature } from "topojson-client";
+import type { Feature, FeatureCollection, GeoJsonProperties, Geometry } from "geojson";
+import type { Topology } from "topojson-specification";
+import { Maximize2, Minimize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+
+type WorldGeoFeature = Feature<Geometry, GeoJsonProperties>;
+
+function isFeatureCollection(value: unknown): value is FeatureCollection<Geometry, GeoJsonProperties> {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as { type?: string; features?: unknown };
+  return candidate.type === "FeatureCollection" && Array.isArray(candidate.features);
+}
 
 export type WorldRegionDatum = {
   id: string;
@@ -30,8 +44,9 @@ type WorldTopologyMapProps = {
   subtitle?: string;
   dataSource?: string;
   className?: string;
+  mapHeightClassName?: string;
   colorScale: (value: number) => string;
-  buildRegionData: (featureItem: any, index: number) => WorldRegionDatum;
+  buildRegionData: (featureItem: WorldGeoFeature, index: number) => WorldRegionDatum;
   onRegionSelect?: (region: WorldRegionDatum) => void;
   selectedRegionId?: string | null;
   markers?: WorldMarkerDatum[];
@@ -50,6 +65,7 @@ export function WorldTopologyMap({
   subtitle,
   dataSource,
   className,
+  mapHeightClassName = "h-[540px]",
   colorScale,
   buildRegionData,
   onRegionSelect,
@@ -58,14 +74,17 @@ export function WorldTopologyMap({
   onMarkerSelect,
   selectedMarkerId,
   markerMode = "pulse",
-  mapBackground = "radial-gradient(circle at 50% 44%, rgba(6, 23, 36, 0.95), rgba(2, 9, 24, 0.98))",
+  mapBackground = "radial-gradient(circle at 48% 42%, rgba(10, 45, 68, 0.95), rgba(3, 13, 34, 0.98))",
   earthTint = "green",
   showOrbitSatellites = true
 }: WorldTopologyMapProps) {
-  const [topologyData, setTopologyData] = useState<any>(null);
+  const [topologyData, setTopologyData] = useState<Topology | null>(null);
   const [hoveredRegion, setHoveredRegion] = useState<WorldRegionDatum | null>(null);
   const [hoveredMarker, setHoveredMarker] = useState<WorldMarkerDatum | null>(null);
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
+  const [enlarged, setEnlarged] = useState(false);
+
+  const activeMapHeightClassName = enlarged ? "h-[680px] xl:h-[760px]" : mapHeightClassName;
 
   useEffect(() => {
     let mounted = true;
@@ -90,11 +109,15 @@ export function WorldTopologyMap({
 
   const worldFeatures = useMemo(() => {
     if (!topologyData) {
-      return [] as any[];
+      return [] as WorldGeoFeature[];
     }
 
-    const collection = feature(topologyData, topologyData.objects.countries) as any;
-    return collection.features ?? [];
+    const result: unknown = feature(topologyData, topologyData.objects.countries as any);
+    if (isFeatureCollection(result)) {
+      return result.features;
+    }
+
+    return [] as WorldGeoFeature[];
   }, [topologyData]);
 
   const projection = useMemo(() => {
@@ -105,11 +128,11 @@ export function WorldTopologyMap({
     return d3.geoNaturalEarth1().fitSize([1200, 620], {
       type: "FeatureCollection",
       features: worldFeatures
-    } as any);
+    } as FeatureCollection<Geometry, GeoJsonProperties>);
   }, [worldFeatures]);
 
   const path = useMemo(() => d3.geoPath(projection), [projection]);
-  const spherePath = useMemo(() => path({ type: "Sphere" } as any) ?? undefined, [path]);
+  const spherePath = useMemo(() => path({ type: "Sphere" }) ?? undefined, [path]);
   const graticule = useMemo(() => d3.geoGraticule10(), []);
   const regionData = useMemo(
     () => worldFeatures.map((featureItem, index) => ({ featureItem, datum: buildRegionData(featureItem, index) })),
@@ -127,27 +150,37 @@ export function WorldTopologyMap({
       </div>
 
       <div
-        className="relative overflow-hidden rounded-[28px] border border-cyan-300/10"
+        className="group relative overflow-hidden rounded-[28px] border border-cyan-300/10 transition duration-300 hover:border-cyan-300/30 hover:shadow-[0_0_36px_rgba(34,211,238,0.2)]"
         style={{ background: mapBackground }}
         onMouseLeave={() => {
           setHoveredRegion(null);
           setHoveredMarker(null);
         }}
       >
+        <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_65%_20%,rgba(34,211,238,0.12),transparent_42%)]" />
+        <button
+          type="button"
+          onClick={() => setEnlarged((value) => !value)}
+          className="absolute right-3 top-3 z-20 inline-flex items-center gap-1.5 rounded-full border border-cyan-300/28 bg-slate-950/72 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] text-cyan-100 transition hover:border-cyan-300/50 hover:bg-slate-950/85"
+        >
+          {enlarged ? <Minimize2 className="h-3 w-3" /> : <Maximize2 className="h-3 w-3" />}
+          {enlarged ? "Minimize" : "Enlarge"}
+        </button>
+
         {topologyData ? (
-          <svg viewBox="0 0 1200 620" className="h-[540px] w-full">
+          <svg viewBox="0 0 1200 620" className={cn("w-full transition-[height] duration-300 ease-out", activeMapHeightClassName)}>
             <defs>
               <radialGradient id="map-ocean-earth" cx="42%" cy="38%" r="66%">
-                <stop offset="0%" stopColor="rgba(16, 63, 86, 0.95)" />
-                <stop offset="45%" stopColor="rgba(8, 39, 56, 0.96)" />
-                <stop offset="100%" stopColor="rgba(2, 14, 28, 0.98)" />
+                <stop offset="0%" stopColor="rgba(38, 105, 140, 0.96)" />
+                <stop offset="42%" stopColor="rgba(15, 69, 96, 0.96)" />
+                <stop offset="100%" stopColor="rgba(2, 18, 36, 0.99)" />
               </radialGradient>
               <radialGradient id="map-atmosphere" cx="50%" cy="42%" r="68%">
                 <stop offset="65%" stopColor="rgba(45, 212, 191, 0)" />
-                <stop offset="100%" stopColor={earthTint === "green" ? "rgba(0,255,136,0.28)" : "rgba(34,211,238,0.22)"} />
+                <stop offset="100%" stopColor={earthTint === "green" ? "rgba(0,255,136,0.34)" : "rgba(34,211,238,0.28)"} />
               </radialGradient>
               <radialGradient id="map-specular" cx="34%" cy="26%" r="28%">
-                <stop offset="0%" stopColor="rgba(255,255,255,0.28)" />
+                <stop offset="0%" stopColor="rgba(255,255,255,0.34)" />
                 <stop offset="100%" stopColor="rgba(255,255,255,0)" />
               </radialGradient>
               <filter id="map-soft-glow" x="-20%" y="-20%" width="140%" height="140%">
@@ -165,7 +198,7 @@ export function WorldTopologyMap({
             <rect x="0" y="0" width="1200" height="620" fill="transparent" />
             {spherePath ? (
               <>
-                <path d={spherePath} fill="url(#map-ocean-earth)" stroke="rgba(0,255,136,0.24)" strokeWidth="1.2" />
+                <path d={spherePath} fill="url(#map-ocean-earth)" stroke="rgba(0,255,136,0.3)" strokeWidth="1.2" />
                 <path d={spherePath} fill="url(#map-atmosphere)" opacity="0.8" />
                 <path d={spherePath} fill="url(#map-specular)" opacity="0.7" />
               </>
@@ -175,7 +208,7 @@ export function WorldTopologyMap({
               <path
                 d={path(graticule) ?? undefined}
                 fill="none"
-                stroke={earthTint === "green" ? "rgba(16,185,129,0.14)" : "rgba(148,163,184,0.12)"}
+                stroke={earthTint === "green" ? "rgba(16,185,129,0.2)" : "rgba(148,163,184,0.16)"}
                 strokeWidth="0.7"
               />
 
@@ -188,7 +221,7 @@ export function WorldTopologyMap({
                     key={datum.id}
                     d={path(featureItem) ?? undefined}
                     fill={fillColor}
-                    stroke={active ? "rgba(240,253,244,0.95)" : "rgba(186,230,253,0.24)"}
+                    stroke={active ? "rgba(240,253,244,0.95)" : "rgba(186,230,253,0.36)"}
                     strokeWidth={active ? 1.5 : 0.75}
                     opacity={active || hoveredRegion?.id === datum.id ? 1 : 0.92}
                     filter={active ? "url(#map-soft-glow)" : undefined}
@@ -207,8 +240,8 @@ export function WorldTopologyMap({
 
             {showOrbitSatellites ? (
               <g opacity="0.72">
-                <ellipse cx="600" cy="310" rx="476" ry="230" fill="none" stroke="rgba(56,189,248,0.16)" strokeWidth="1" strokeDasharray="6 7" />
-                <ellipse cx="600" cy="310" rx="518" ry="255" fill="none" stroke="rgba(0,255,136,0.14)" strokeWidth="1" strokeDasharray="8 9" />
+                <ellipse cx="600" cy="310" rx="476" ry="230" fill="none" stroke="rgba(56,189,248,0.24)" strokeWidth="1" strokeDasharray="6 7" />
+                <ellipse cx="600" cy="310" rx="518" ry="255" fill="none" stroke="rgba(0,255,136,0.2)" strokeWidth="1" strokeDasharray="8 9" />
                 <g transform="translate(1060,312)" className="animate-[float_8s_ease-in-out_infinite]">
                   <rect x="-8" y="-4" width="16" height="8" rx="2" fill="rgba(191,219,254,0.95)" />
                   <rect x="-20" y="-3" width="10" height="6" rx="1" fill="rgba(34,211,238,0.7)" />
@@ -247,8 +280,8 @@ export function WorldTopologyMap({
                 >
                   {markerMode !== "satellite" ? (
                     <>
-                      <circle r={dotSize * 2.4} fill={pulseFill} opacity={0.12} className="animate-pulse" />
-                      <circle r={dotSize * 1.6} fill={pulseFill} opacity={0.22} className="animate-pulse" />
+                      <circle r={dotSize * 2.8} fill={pulseFill} opacity={0.14} className="animate-pulse" />
+                      <circle r={dotSize * 1.9} fill={pulseFill} opacity={0.28} className="animate-pulse" />
                     </>
                   ) : null}
                   {markerMode === "satellite" ? (
@@ -298,7 +331,7 @@ export function WorldTopologyMap({
             })}
           </svg>
         ) : (
-          <div className="flex h-[540px] items-center justify-center text-sm uppercase tracking-[0.24em] text-slate-400">
+          <div className={cn("flex items-center justify-center text-sm uppercase tracking-[0.24em] text-slate-400 transition-[height] duration-300 ease-out", activeMapHeightClassName)}>
             Loading world topology...
           </div>
         )}
@@ -306,7 +339,7 @@ export function WorldTopologyMap({
         {(hoveredRegion || hoveredMarker) && (
           <div
             className="pointer-events-none fixed z-50 w-[310px] rounded-[20px] border border-cyan-300/40 bg-[rgba(3,10,25,0.97)] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
-            style={{ left: pointer.x + 16, top: pointer.y + 16 }}
+            style={{ left: pointer.x, top: pointer.y - 8 }}
           >
             {hoveredRegion ? (
               <>

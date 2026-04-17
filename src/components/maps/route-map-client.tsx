@@ -1,7 +1,6 @@
 "use client";
 
 import { Fragment } from "react";
-import "leaflet/dist/leaflet.css";
 import { Circle, MapContainer, Polyline, TileLayer, Tooltip } from "react-leaflet";
 import type { AviationRoute } from "@/types";
 

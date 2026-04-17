@@ -318,11 +318,12 @@ export default function SolarOptimizerPage() {
         </GlassCard>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
+      <div className="space-y-6">
         <WorldTopologyMap
           title="Global solar irradiance atlas"
           subtitle="Bright orange and gold regions represent the highest satellite-derived solar yield. Click any region to inspect farm-scale economics and field geometry."
           dataSource="NASA POWER API · PVGIS · Satellite Derived"
+          mapHeightClassName="h-[560px] xl:h-[660px]"
           colorScale={colorScale}
           buildRegionData={buildSolarSelection}
           selectedRegionId={selectedRegion.id}

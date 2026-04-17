@@ -28,8 +28,8 @@ export function Topbar() {
             <span className="font-display text-sm">AS</span>
           </div>
           <div className="min-w-0">
-            <p className="truncate font-display text-base tracking-[0.08em] text-white">AstroShield</p>
-            <p className="truncate text-[10px] uppercase tracking-[0.28em] text-cyan-300">Mission Control</p>
+            <p className="text-space-heading truncate font-display text-base tracking-[0.08em]">AstroShield</p>
+            <p className="text-space-section truncate text-[10px] uppercase tracking-[0.28em]">Mission Control</p>
           </div>
         </Link>
         <div className="relative hidden min-w-[260px] md:block">
@@ -53,8 +53,8 @@ export function Topbar() {
             <AvatarFallback>AR</AvatarFallback>
           </Avatar>
           <div className="hidden pr-2 md:block">
-            <p className="text-sm font-semibold text-white">Aisha Rao</p>
-            <p className="text-xs uppercase tracking-[0.22em] text-slate-400">Mission Control Lead</p>
+            <p className="text-space-number text-sm font-semibold">Aisha Rao</p>
+            <p className="text-space-body text-xs uppercase tracking-[0.22em]">Mission Control Lead</p>
           </div>
         </Link>
       </div>

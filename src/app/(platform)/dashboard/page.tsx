@@ -67,7 +67,7 @@ export default function DashboardPage() {
         {alerts ? <AlertFeed alerts={alerts} /> : <LoadingSkeleton className="h-[420px]" />}
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1fr_0.9fr_0.9fr]">
+      <div className="space-y-6">
         <GlassCard className="overflow-hidden">
           <div className="mb-5 flex items-center justify-between">
             <div>
@@ -79,26 +79,28 @@ export default function DashboardPage() {
           {gridRisk ? <RiskMap locations={gridRisk} /> : <LoadingSkeleton className="h-[420px]" />}
         </GlassCard>
 
-        {data ? <GeomagneticMeter items={data.geomagneticScale} /> : <LoadingSkeleton className="h-[360px]" />}
+        <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+          {data ? <GeomagneticMeter items={data.geomagneticScale} /> : <LoadingSkeleton className="h-[360px]" />}
 
-        <GlassCard className="h-full">
-          <div className="mb-5 flex items-center justify-between">
-            <div>
-              <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Event Timeline</p>
-              <h2 className="mt-2 font-display text-3xl text-white">Operational milestones</h2>
-            </div>
-            <Zap className="h-6 w-6 text-cyan-300" />
-          </div>
-          <div className="space-y-4">
-            {data?.timeline.map((item) => (
-              <div key={item.time} className="rounded-2xl border border-cyan-300/10 bg-slate-950/55 p-4">
-                <p className="text-xs uppercase tracking-[0.22em] text-cyan-300">{item.time}</p>
-                <h3 className="mt-2 font-semibold text-white">{item.event}</h3>
-                <p className="mt-2 text-sm text-slate-300">{item.impact}</p>
+          <GlassCard className="h-full">
+            <div className="mb-5 flex items-center justify-between">
+              <div>
+                <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Event Timeline</p>
+                <h2 className="mt-2 font-display text-3xl text-white">Operational milestones</h2>
               </div>
-            ))}
-          </div>
-        </GlassCard>
+              <Zap className="h-6 w-6 text-cyan-300" />
+            </div>
+            <div className="space-y-4">
+              {data?.timeline.map((item) => (
+                <div key={item.time} className="rounded-2xl border border-cyan-300/10 bg-slate-950/55 p-4">
+                  <p className="text-xs uppercase tracking-[0.22em] text-cyan-300">{item.time}</p>
+                  <h3 className="mt-2 font-semibold text-white">{item.event}</h3>
+                  <p className="mt-2 text-sm text-slate-300">{item.impact}</p>
+                </div>
+              ))}
+            </div>
+          </GlassCard>
+        </div>
       </div>
     </div>
   );

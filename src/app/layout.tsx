@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Rajdhani, Orbitron } from "next/font/google";
+import "leaflet/dist/leaflet.css";
 import "@/app/globals.css";
 import { AppProviders } from "@/components/providers/app-providers";
 

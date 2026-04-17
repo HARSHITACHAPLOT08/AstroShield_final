@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import * as d3 from "d3";
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { GlassCard } from "@/components/shared/glass-card";
@@ -92,7 +93,7 @@ function buildEnergyPovertyRegion(featureItem: any): WorldRegionDatum {
     id: String(featureItem.id),
     label: `Region ${featureItem.id}`,
     value: underServed ? 1 : 0,
-    fill: underServed ? "rgba(249, 115, 22, 0.75)" : "rgba(16, 185, 129, 0.18)",
+    fill: underServed ? "rgba(255, 132, 46, 0.84)" : "rgba(16, 185, 129, 0.28)",
     tooltipTitle: `Region ${featureItem.id}`,
     tooltipLines: [
       `Electricity access ${accessRate}%`,
@@ -139,7 +140,23 @@ export default function EnergyAccessPage() {
   }, [dailyNeed, population]);
 
   return (
-    <div className="space-y-6">
+    <div className="relative space-y-6 overflow-hidden">
+      <motion.div
+        className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-cyan-400/12 blur-3xl"
+        animate={{ x: [0, 24, 0], y: [0, -20, 0], opacity: [0.45, 0.8, 0.45] }}
+        transition={{ duration: 11, ease: "easeInOut", repeat: Infinity }}
+      />
+      <motion.div
+        className="pointer-events-none absolute right-0 top-40 h-80 w-80 rounded-full bg-fuchsia-500/10 blur-3xl"
+        animate={{ x: [0, -20, 0], y: [0, 18, 0], opacity: [0.35, 0.7, 0.35] }}
+        transition={{ duration: 12.5, ease: "easeInOut", repeat: Infinity }}
+      />
+      <motion.div
+        className="pointer-events-none absolute bottom-20 left-1/3 h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl"
+        animate={{ x: [0, -28, 0], y: [0, 14, 0], opacity: [0.32, 0.62, 0.32] }}
+        transition={{ duration: 10.8, ease: "easeInOut", repeat: Infinity }}
+      />
+
       <PageHeader
         eyebrow="Energy Access"
         title="Humanitarian Energy Access Mission"
@@ -152,19 +169,20 @@ export default function EnergyAccessPage() {
           title="Global energy poverty zones"
           subtitle="Red-orange regions indicate critical electricity gaps. Satellite markers represent under-served communities ready for rapid microgrid deployment."
           dataSource="IEA Access Database · World Bank · UNICEF"
-          colorScale={(value) => (value > 0 ? "rgba(249, 115, 22, 0.75)" : "rgba(16, 185, 129, 0.18)")}
+          colorScale={(value) => (value > 0 ? "rgba(255, 132, 46, 0.84)" : "rgba(16, 185, 129, 0.28)")}
           buildRegionData={buildEnergyPovertyRegion}
           markers={communities}
           markerMode="satellite"
           onMarkerSelect={(marker) => setSelectedCommunity(marker as CommunityProfile)}
           selectedMarkerId={selectedCommunity.id}
           earthTint="green"
-          mapBackground="radial-gradient(circle at 50% 44%, rgba(4, 18, 16, 0.95), rgba(3, 10, 25, 0.98))"
+          mapBackground="radial-gradient(circle at 50% 42%, rgba(10, 44, 34, 0.96), rgba(4, 16, 34, 0.98))"
           onRegionSelect={() => undefined}
         />
 
         <div className="space-y-6">
-          <GlassCard className="border-emerald-300/20 bg-gradient-to-br from-emerald-400/14 via-slate-950/70 to-cyan-500/10">
+          <motion.div whileHover={{ y: -4, scale: 1.008 }} transition={{ duration: 0.25 }}>
+          <GlassCard className="border-emerald-300/25 bg-[linear-gradient(135deg,rgba(16,185,129,0.18),rgba(6,182,212,0.12),rgba(30,41,59,0.76))] shadow-[0_0_0_1px_rgba(16,185,129,0.1),0_18px_44px_rgba(2,6,23,0.42)] transition hover:shadow-[0_0_38px_rgba(52,211,153,0.24)]">
             <div className="flex items-center justify-between gap-3">
               <p className="text-sm uppercase tracking-[0.24em] text-emerald-300">Mission Control</p>
               <Badge className="border-emerald-300/30 bg-emerald-500/10 text-emerald-100">Live humanitarian model</Badge>
@@ -176,8 +194,10 @@ export default function EnergyAccessPage() {
               <Stat label="Projected homes powered" value="1,920,000" />
             </div>
           </GlassCard>
+          </motion.div>
 
-          <GlassCard className="border-emerald-300/20 bg-gradient-to-br from-slate-950/85 via-emerald-500/10 to-slate-950/85">
+          <motion.div whileHover={{ y: -4, scale: 1.008 }} transition={{ duration: 0.25 }}>
+          <GlassCard className="border-emerald-300/25 bg-[linear-gradient(145deg,rgba(2,6,23,0.88),rgba(16,185,129,0.11),rgba(56,189,248,0.08))] shadow-[0_0_0_1px_rgba(16,185,129,0.1),0_18px_44px_rgba(2,6,23,0.42)] transition hover:shadow-[0_0_38px_rgba(56,189,248,0.22)]">
             <p className="text-sm uppercase tracking-[0.24em] text-emerald-300">Community profile</p>
             <h2 className="mt-3 font-display text-3xl text-white">{selectedCommunity.label}</h2>
             <p className="mt-3 text-slate-300">{selectedCommunity.solution}</p>
@@ -192,11 +212,13 @@ export default function EnergyAccessPage() {
               <p className="mt-2 font-display text-3xl text-white">${selectedCommunity.monthlySavings}</p>
             </div>
           </GlassCard>
+          </motion.div>
         </div>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <GlassCard className="border-emerald-300/20">
+        <motion.div whileHover={{ y: -4, scale: 1.006 }} transition={{ duration: 0.25 }}>
+        <GlassCard className="border-emerald-300/25 bg-[linear-gradient(145deg,rgba(2,6,23,0.86),rgba(14,116,144,0.12),rgba(16,185,129,0.1))] shadow-[0_0_0_1px_rgba(34,211,238,0.1),0_18px_44px_rgba(2,6,23,0.42)] transition hover:shadow-[0_0_40px_rgba(34,211,238,0.22)]">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-sm uppercase tracking-[0.24em] text-emerald-300">Microgrid Designer</p>
@@ -243,11 +265,13 @@ export default function EnergyAccessPage() {
             <Stat label="Payback period" value={`${microgrid.paybackMonths} months`} />
           </div>
         </GlassCard>
+        </motion.div>
 
-        <GlassCard className="border-emerald-300/20 bg-gradient-to-br from-emerald-400/14 via-slate-950/65 to-cyan-500/10">
+        <motion.div whileHover={{ y: -4, scale: 1.006 }} transition={{ duration: 0.25 }}>
+        <GlassCard className="border-emerald-300/25 bg-[linear-gradient(140deg,rgba(16,185,129,0.16),rgba(2,6,23,0.74),rgba(59,130,246,0.12))] shadow-[0_0_0_1px_rgba(16,185,129,0.1),0_18px_44px_rgba(2,6,23,0.42)] transition hover:shadow-[0_0_40px_rgba(16,185,129,0.24)]">
           <p className="text-sm uppercase tracking-[0.24em] text-emerald-300">Impact ticker</p>
           <p className="mt-2 text-sm text-slate-300">Real-time equivalent homes that could be energized today with active deployment.</p>
-          <div className="mt-5 rounded-[20px] border border-emerald-300/20 bg-slate-950/65 p-4">
+          <div className="mt-5 rounded-[20px] border border-emerald-300/24 bg-[linear-gradient(145deg,rgba(2,6,23,0.78),rgba(16,185,129,0.14))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
             <CountUpNumber value={homesPoweredToday} className="text-5xl text-emerald-200" />
             <p className="mt-2 text-sm uppercase tracking-[0.18em] text-emerald-300">Homes powered today</p>
           </div>
@@ -258,6 +282,7 @@ export default function EnergyAccessPage() {
             <Stat label="Health impact score" value="91/100" />
           </div>
         </GlassCard>
+        </motion.div>
       </div>
     </div>
   );
@@ -265,9 +290,13 @@ export default function EnergyAccessPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[16px] border border-emerald-300/20 bg-slate-950/60 p-3">
+    <motion.div
+      whileHover={{ y: -2, scale: 1.015 }}
+      transition={{ duration: 0.2 }}
+      className="rounded-[16px] border border-emerald-300/24 bg-[linear-gradient(145deg,rgba(2,6,23,0.76),rgba(16,185,129,0.12))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition hover:border-cyan-300/40 hover:shadow-[0_0_22px_rgba(34,211,238,0.18)]"
+    >
       <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">{label}</p>
       <p className="mt-2 font-display text-2xl text-white">{value}</p>
-    </div>
+    </motion.div>
   );
 }

@@ -144,7 +144,7 @@ export function BarComparisonChart({
                 bodyFont: { size: 12 },
                 padding: 12,
                 displayColors: true,
-                borderRadius: 8,
+                cornerRadius: 8,
                 callbacks: {
                   afterLabel(context) {
                     return `Value: ${context.parsed.y.toFixed(1)}`;
@@ -159,8 +159,10 @@ export function BarComparisonChart({
                   font: { family: "var(--font-space)", size: 11 }
                 },
                 grid: {
-                  color: "rgba(148,163,184,0.08)",
-                  drawBorder: false
+                  color: "rgba(148,163,184,0.08)"
+                },
+                border: {
+                  display: false
                 }
               },
               y: {
@@ -169,8 +171,10 @@ export function BarComparisonChart({
                   font: { family: "var(--font-space)", size: 11 }
                 },
                 grid: {
-                  color: "rgba(148,163,184,0.08)",
-                  drawBorder: false
+                  color: "rgba(148,163,184,0.08)"
+                },
+                border: {
+                  display: false
                 },
                 suggestedMax: maxValue,
                 beginAtZero: true
