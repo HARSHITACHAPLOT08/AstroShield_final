@@ -47,7 +47,11 @@ export function Sidebar({ mobile = false }: { mobile?: boolean }) {
         </Button>
       </div>
 
-      <nav className={cn("scrollbar-thin min-h-0 flex-1 space-y-2 overflow-y-auto", expanded ? "pr-1" : "pr-0") }>
+      <nav
+        data-lenis-prevent
+        data-lenis-prevent-wheel
+        className={cn("scrollbar-thin min-h-0 flex-1 space-y-2 overflow-y-auto", expanded ? "pr-1" : "pr-0") }
+      >
         {appRoutes.filter((route) => route.href !== "/login").map((route) => {
           const active =
             route.href === "/dashboard" ? pathname === "/dashboard" : pathname.startsWith(route.href);
@@ -81,17 +85,6 @@ export function Sidebar({ mobile = false }: { mobile?: boolean }) {
         })}
       </nav>
 
-      <div className="rounded-[24px] border border-cyan-300/10 bg-gradient-to-br from-cyan-400/10 to-fuchsia-500/10 p-4">
-        {expanded ? (
-          <>
-            <p className="text-space-section text-xs uppercase tracking-[0.24em]">System State</p>
-            <p className="text-space-number mt-3 font-display text-2xl">GREENLINE</p>
-            <p className="text-space-body mt-2 text-sm">Telemetry healthy across all mock data pipelines.</p>
-          </>
-        ) : (
-          <div className="mx-auto h-3 w-3 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.75)]" />
-        )}
-      </div>
     </aside>
   );
 }
