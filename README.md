@@ -51,6 +51,31 @@ npm run dev
 
 3. Open `http://localhost:3000`.
 
+## MongoDB Setup (Atlas + Mongoose)
+
+AstroShield now supports MongoDB-backed persistence while keeping the same UI and route structure.
+
+1. Copy env template:
+
+```bash
+cp .env.local.example .env.local
+```
+
+2. Fill in:
+
+```bash
+MONGODB_URI=...
+MONGODB_DB=...
+```
+
+3. Start app:
+
+```bash
+npm run dev
+```
+
+If MongoDB is unavailable or not configured, AstroShield gracefully falls back to the existing live/mock data paths.
+
 ## Project Shape
 
 ```text
@@ -124,6 +149,93 @@ Example response:
   "solarWindSpeed": 612,
   "flareActivity": "M-class flare"
 }
+```
+
+### 4) MongoDB CRUD APIs
+
+The following API routes are available for persistent data operations:
+
+- `GET | POST | PUT | DELETE /api/telemetry`
+- `GET | POST | PUT | DELETE /api/alerts`
+- `GET | POST | PUT | DELETE /api/predictions`
+- `GET | POST | PUT | DELETE /api/sites`
+- `GET | POST | PUT | DELETE /api/reports`
+- `GET | POST | PUT | DELETE /api/preferences`
+
+Pagination is supported with `page` and `limit` query params for list endpoints.
+
+### 5) Mongo Collections
+
+Mongoose models are defined in:
+
+- `src/models/Telemetry.ts`
+- `src/models/Alert.ts`
+- `src/models/Prediction.ts`
+- `src/models/SolarSite.ts`
+- `src/models/Report.ts`
+- `src/models/UserPreference.ts`
+- `src/models/UserAccount.ts`
+- `src/models/UserSession.ts`
+- `src/models/PasswordResetToken.ts`
+
+Connection singleton lives in:
+
+- `src/lib/db/mongodb.ts`
+
+### 6) Auth Persistence APIs
+
+Mongo-backed auth routes are available at:
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/forgot-password`
+- `GET | POST /api/auth/reset-password`
+- `POST /api/auth/logout`
+- `GET /api/auth/session`
+
+Auth sessions are stored with secure HTTP-only cookies and persisted in `user_sessions`.
+Password reset tokens are short-lived, single-use, and persisted in `password_reset_tokens`.
+
+### 3) Synthetic Dataset Mode
+
+AstroShield now supports a synthetic scenario dataset that covers the same parameter families used in the platform modules (solar telemetry, alerts, risk scores, satellites, aviation, analytics, and admin health).
+
+- API query toggle:
+
+```http
+GET /api/platform/dashboard?dataset=synthetic
+GET /api/platform/satellites?dataset=synthetic
+```
+
+- Global server mode:
+
+```bash
+PLATFORM_DATA_MODE=synthetic
+```
+
+- Global client mode:
+
+```bash
+NEXT_PUBLIC_PLATFORM_DATASET_MODE=synthetic
+```
+
+Synthetic mode is deterministic per short time window so values remain coherent across cards/charts while still changing over time.
+
+## ML Enhancement Layer
+
+AstroShield now includes a non-destructive ML enhancement layer powered by the uploaded synthetic CSV dataset.
+
+- Data pipeline: `src/lib/ml/data-pipeline.ts`
+- ML engine: `src/lib/ml/engine.ts`
+- Prediction API: `src/app/api/predict/route.ts`
+- Client prediction service: `src/services/predictions/`
+- Prediction state (Zustand): `src/store/prediction-store.ts`
+
+Example inference request:
+
+```http
+GET /api/predict
+GET /api/predict?irradiance=7.4&landArea=92&temperature=29&dustIndex=18&region=MEA
 ```
 
 ## Notes

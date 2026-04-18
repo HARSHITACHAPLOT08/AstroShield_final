@@ -26,7 +26,8 @@ import type {
 } from "@/types/platform";
 
 const NOAA_BASE = "https://services.swpc.noaa.gov";
-const DONKI_BASE = "https://kauai.ccmc.gsfc.nasa.gov/DONKI/WS/get";
+const DONKI_BASE = "https://api.nasa.gov/DONKI";
+const NASA_API_KEY = process.env.NASA_API_KEY || "DEMO_KEY";
 
 type SummaryWind = Array<{ proton_speed: number; time_tag: string }>;
 type SummaryMag = Array<{ bt: number; bz_gsm: number; time_tag: string }>;
@@ -206,8 +207,8 @@ async function loadTelemetry() {
       fetchExternal<XrayRow[]>(`${NOAA_BASE}/json/goes/primary/xrays-1-day.json`),
       fetchExternal<unknown>(`${NOAA_BASE}/products/solar-wind/plasma-1-day.json`),
       fetchExternal<unknown>(`${NOAA_BASE}/products/solar-wind/mag-1-day.json`),
-      fetchExternal<DonkiFlareRow[]>(`${DONKI_BASE}/FLR?startDate=${startDate}&endDate=${endDate}`),
-      fetchExternal<DonkiCmeRow[]>(`${DONKI_BASE}/CMEAnalysis?startDate=${startDate}&endDate=${endDate}&mostAccurateOnly=true&catalog=M2M_CATALOG`)
+      fetchExternal<DonkiFlareRow[]>(`${DONKI_BASE}/FLR?startDate=${startDate}&endDate=${endDate}&api_key=${NASA_API_KEY}`),
+      fetchExternal<DonkiCmeRow[]>(`${DONKI_BASE}/CMEAnalysis?startDate=${startDate}&endDate=${endDate}&mostAccurateOnly=true&catalog=M2M_CATALOG&api_key=${NASA_API_KEY}`)
     ]);
 
   return {
