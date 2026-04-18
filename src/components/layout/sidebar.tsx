@@ -61,6 +61,7 @@ export function Sidebar({ mobile = false }: { mobile?: boolean }) {
             <Link
               key={route.href}
               href={route.href}
+              prefetch
               className={cn(
                 "group relative flex items-center overflow-hidden rounded-2xl py-3 text-sm font-semibold text-slate-300 transition duration-300",
                 expanded ? "justify-start gap-3 px-4" : "justify-center px-0",

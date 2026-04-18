@@ -76,6 +76,56 @@ src/
   types/
 ```
 
+## API Reference
+
+### 1) Platform Resources
+
+- Route: `/api/platform/[resource]`
+- Method: `GET`
+- Handler: `src/app/api/platform/[resource]/route.ts`
+
+Supported resource values:
+
+| Resource | Description |
+| --- | --- |
+| `landing` | Landing page ticker and mission content |
+| `dashboard` | Core operational metrics, geomagnetic scale, timeline |
+| `alerts` | Normalized operational alert feed |
+| `solar-monitor` | CME activity, active regions, flare history |
+| `ai-predictions` | Forecast windows, flare class probabilities, drivers |
+| `grid-risk` | Grid location risk overlays |
+| `satellites` | Satellite asset risk and exposure trends |
+| `aviation` | Route risk, zones, and incidents |
+| `analytics` | Storm history and cycle trend data |
+| `admin` | API health and admin logs |
+| `profile` | User profile and preferences |
+
+Platform endpoint examples:
+
+```http
+GET /api/platform/dashboard
+GET /api/platform/solar-monitor
+GET /api/platform/analytics
+```
+
+### 2) Live Telemetry Stream
+
+- Route: `/live-solar`
+- Method: `GET`
+- Handler: `src/app/live-solar/route.ts`
+- Data sources: NOAA SWPC + NASA DONKI (live upstream pulls with resilient fallback values)
+
+Example response:
+
+```json
+{
+  "timestamp": "2026-04-18T11:24:00.000Z",
+  "kpIndex": 5.7,
+  "solarWindSpeed": 612,
+  "flareActivity": "M-class flare"
+}
+```
+
 ## Notes
 
 - AstroShield now fetches live upstream space-weather data through `src/app/api/platform/[resource]/route.ts`.

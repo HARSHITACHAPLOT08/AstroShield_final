@@ -21,6 +21,7 @@ export function BottomNav() {
           <Link
             key={route.href}
             href={route.href}
+            prefetch
             className={cn(
               "flex flex-col items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400",
               active && "bg-cyan-400/15 text-white"

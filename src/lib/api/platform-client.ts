@@ -3,9 +3,7 @@ import type { PlatformResourceMap } from "@/types/platform";
 async function fetchPlatformResource<T extends keyof PlatformResourceMap>(
   resource: T
 ): Promise<PlatformResourceMap[T]> {
-  const response = await fetch(`/api/platform/${resource}`, {
-    cache: "no-store"
-  });
+  const response = await fetch(`/api/platform/${resource}`);
 
   if (!response.ok) {
     throw new Error(`Failed to load platform resource: ${resource}`);
@@ -25,3 +23,18 @@ export const getAviationData = () => fetchPlatformResource("aviation");
 export const getAnalyticsData = () => fetchPlatformResource("analytics");
 export const getAdminData = () => fetchPlatformResource("admin");
 export const getProfileData = () => fetchPlatformResource("profile");
+
+export const warmPlatformData = () =>
+  Promise.all([
+    getLandingData(),
+    getDashboardData(),
+    getAlerts(),
+    getSolarMonitorData(),
+    getPredictionData(),
+    getGridRiskData(),
+    getSatelliteData(),
+    getAviationData(),
+    getAnalyticsData(),
+    getAdminData(),
+    getProfileData()
+  ]).then(() => undefined);

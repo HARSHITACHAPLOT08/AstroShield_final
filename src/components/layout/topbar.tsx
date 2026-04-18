@@ -90,6 +90,7 @@ export function Topbar() {
         </Sheet>
         <Link
           href="/"
+          prefetch
           className="glass-panel flex min-w-0 items-center gap-3 rounded-2xl px-3 py-2 lg:hidden"
         >
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-300 to-blue-600 text-slate-950 shadow-glow">
@@ -131,6 +132,7 @@ export function Topbar() {
                 <p className="text-space-heading font-display text-lg">Notifications</p>
                 <Link
                   href="/dashboard"
+                  prefetch
                   onClick={() => setOpen(false)}
                   className="text-space-section text-[11px] uppercase tracking-[0.22em] text-cyan-200 transition hover:text-cyan-100"
                 >
@@ -144,6 +146,7 @@ export function Topbar() {
                     <Link
                       key={item.id}
                       href="/dashboard"
+                      prefetch
                       onClick={() => setOpen(false)}
                       className={cn(
                         "group block rounded-2xl border p-3 transition",
@@ -175,6 +178,7 @@ export function Topbar() {
         </div>
         <Link
           href="/profile"
+          prefetch
           className="group flex items-center gap-3 rounded-full border border-cyan-300/10 bg-slate-950/55 px-2 py-1.5 transition duration-300 hover:-translate-y-0.5 hover:border-cyan-300/35 hover:bg-slate-950/70"
         >
           <Avatar>

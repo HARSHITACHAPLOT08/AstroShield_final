@@ -82,17 +82,52 @@ function SolarDiskCanvas({
   className?: string;
   onDoubleClick?: () => void;
 }) {
+  const [hovered, setHovered] = useState(false);
+  const [pointer, setPointer] = useState({ x: 0, y: 0 });
+
+  const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const normalizedX = (event.clientX - rect.left) / rect.width - 0.5;
+    const normalizedY = (event.clientY - rect.top) / rect.height - 0.5;
+    setPointer({
+      x: clamp(normalizedX, -0.5, 0.5),
+      y: clamp(normalizedY, -0.5, 0.5)
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+    setPointer({ x: 0, y: 0 });
+  };
+
+  const tiltStrength = enlarged ? 16 : 11;
+  const driftStrength = enlarged ? 22 : 14;
+
   return (
     <div
       className={cn("relative flex h-[360px] items-center justify-center overflow-hidden rounded-[28px]", className)}
       onDoubleClick={onDoubleClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.22),transparent_40%)]" />
+      <motion.div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 50%, rgba(255,190,80,0.2) 0%, rgba(251,146,60,0.05) 38%, transparent 68%)"
+        }}
+        animate={{ opacity: hovered ? 1 : 0.65, scale: hovered ? 1.04 : 1 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+      />
       
       {/* Animated corona/heat glow */}
       <motion.div
         className="absolute left-1/2 top-1/2 h-[95%] w-[95%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-amber-200/8"
-        animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.04, 1] }}
+        animate={{ opacity: hovered ? [0.5, 0.85, 0.5] : [0.3, 0.6, 0.3], scale: hovered ? [1, 1.08, 1] : [1, 1.04, 1] }}
         transition={{ duration: 4.5, ease: "easeInOut", repeat: Infinity }}
       />
       
@@ -108,7 +143,28 @@ function SolarDiskCanvas({
         <div className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-gradient-to-r from-amber-300 to-orange-400 blur-lg opacity-60" />
       </motion.div>
 
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <motion.div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        animate={{
+          x: pointer.x * driftStrength,
+          y: pointer.y * driftStrength,
+          rotateX: pointer.y * -tiltStrength,
+          rotateY: pointer.x * tiltStrength,
+          scale: hovered ? 1.02 : 1
+        }}
+        transition={{ type: "spring", stiffness: 120, damping: 18, mass: 0.6 }}
+        style={{ perspective: 1200, transformStyle: "preserve-3d" }}
+      >
+        <motion.div
+          className="pointer-events-none absolute inset-[-8%] rounded-full"
+          style={{
+            background:
+              "radial-gradient(circle at 30% 30%, rgba(255,255,190,0.26) 0%, rgba(255,164,71,0.1) 45%, transparent 72%)"
+          }}
+          animate={{ opacity: hovered ? 0.95 : 0.6, scale: hovered ? 1.08 : 1.02 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+        />
+
         <motion.div
           className={cn(
             "relative rounded-full bg-[radial-gradient(circle_at_35%_35%,rgba(254,240,138,0.98),rgba(251,191,36,0.96)_24%,rgba(251,146,60,0.92)_52%,rgba(234,88,12,0.84)_78%)] shadow-[0_0_90px_rgba(251,146,60,0.38)]",
@@ -126,7 +182,14 @@ function SolarDiskCanvas({
             y: { duration: 10, ease: "easeInOut", repeat: Infinity },
             rotate: { duration: 95, ease: "linear", repeat: Infinity }
           }}
+          whileHover={{ scale: 1.03 }}
         >
+          <motion.div
+            className="absolute inset-[-3%] rounded-full border border-amber-100/20"
+            animate={{ opacity: hovered ? [0.35, 0.75, 0.35] : [0.2, 0.45, 0.2] }}
+            transition={{ duration: 2.2, ease: "easeInOut", repeat: Infinity }}
+          />
+
           {/* Inner rotating corona */}
           <motion.div
             className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_40%_40%,rgba(255,255,200,0.12),transparent_60%)]"
@@ -164,7 +227,7 @@ function SolarDiskCanvas({
             style={{
               background: "radial-gradient(circle at 50% 50%, rgba(254,215,0,0.08) 0%, transparent 70%)"
             }}
-            animate={{ opacity: [0.3, 0.8, 0.3] }}
+            animate={{ opacity: hovered ? [0.45, 0.95, 0.45] : [0.3, 0.8, 0.3] }}
             transition={{ duration: 2.2, ease: "easeInOut", repeat: Infinity }}
           />
 
@@ -227,7 +290,17 @@ function SolarDiskCanvas({
             </motion.div>
           ))}
         </motion.div>
-      </div>
+
+        <motion.div
+          className="pointer-events-none absolute inset-[3%] rounded-full border border-white/10"
+          animate={{ rotate: 360, opacity: hovered ? 0.35 : 0.16 }}
+          transition={{ duration: 26, ease: "linear", repeat: Infinity }}
+          style={{
+            background:
+              "conic-gradient(from_0deg, transparent 0deg, rgba(255,245,220,0.16) 90deg, transparent 170deg, rgba(255,208,120,0.2) 250deg, transparent 360deg)"
+          }}
+        />
+      </motion.div>
     </div>
   );
 }
