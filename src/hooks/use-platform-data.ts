@@ -11,14 +11,14 @@ import {
   getPredictionData,
   getProfileData,
   getSatelliteData,
-  getSolarMonitorData
+  getSolarMonitorLiveData
 } from "@/lib/api/platform-client";
 import { useMockQuery } from "@/hooks/use-mock-query";
 
 export const useLandingData = () => useMockQuery(getLandingData);
 export const useDashboardData = () => useMockQuery(getDashboardData);
 export const useAlertsData = () => useMockQuery(getAlerts);
-export const useSolarMonitorData = () => useMockQuery(getSolarMonitorData);
+export const useSolarMonitorData = () => useMockQuery(getSolarMonitorLiveData, { refetchIntervalMs: 12000 });
 export const usePredictionData = () => useMockQuery(getPredictionData);
 export const useGridRiskData = () => useMockQuery(getGridRiskData);
 export const useSatelliteData = () => useMockQuery(getSatelliteData);

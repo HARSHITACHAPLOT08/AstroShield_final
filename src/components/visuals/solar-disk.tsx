@@ -143,8 +143,9 @@ function SolarDiskCanvas({
         <div className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-gradient-to-r from-amber-300 to-orange-400 blur-lg opacity-60" />
       </motion.div>
 
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="relative"
         animate={{
           x: pointer.x * driftStrength,
           y: pointer.y * driftStrength,
@@ -301,6 +302,7 @@ function SolarDiskCanvas({
           }}
         />
       </motion.div>
+      </div>
     </div>
   );
 }

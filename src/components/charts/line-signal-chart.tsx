@@ -69,13 +69,7 @@ export function LineSignalChart({
   const preparedDatasets = useMemo(
     () =>
       datasets.map((dataset, datasetIndex) => {
-        const liftedData = dynamic
-          ? dataset.data.map((point, pointIndex) => {
-              const phase = pulseTick * 0.45 + pointIndex * 0.32 + datasetIndex * 0.6;
-              const offset = pointIndex === dataset.data.length - 1 ? Math.sin(phase) * 0.6 : Math.sin(phase) * 0.22;
-              return Number((point + offset).toFixed(2));
-            })
-          : dataset.data;
+        const liftedData = dataset.data;
 
         return {
           label: dataset.label,

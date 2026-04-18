@@ -27,7 +27,6 @@ export const appRoutes = [
   { href: "/satellites", label: "Satellites", icon: Satellite },
   { href: "/aviation", label: "Aviation", icon: Radar },
   { href: "/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/admin", label: "Admin", icon: Shield },
   { href: "/profile", label: "Profile", icon: UserCircle2 },
   { href: "/login", label: "Login", icon: Settings }
 ] as const;
