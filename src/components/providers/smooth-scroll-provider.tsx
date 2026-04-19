@@ -10,7 +10,6 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       duration: prefersReducedMotion ? 0 : 1.4,
       lerp: prefersReducedMotion ? 1 : 0.06,
       smoothWheel: true,
-      smoothTouch: true,
       syncTouch: true,
       syncTouchLerp: 0.1,
       touchInertiaExponent: 1.8,

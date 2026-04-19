@@ -33,10 +33,10 @@ export function RoutePrefetcher() {
       };
     }
 
-    const timeoutId = window.setTimeout(runPrefetch, 200);
+    const timeoutId = globalThis.setTimeout(runPrefetch, 200);
     return () => {
       cancelled = true;
-      window.clearTimeout(timeoutId);
+      globalThis.clearTimeout(timeoutId);
     };
   }, [pathname, router]);
 
