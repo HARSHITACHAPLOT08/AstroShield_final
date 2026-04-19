@@ -202,6 +202,162 @@ h3.font-display {
   mask-image: linear-gradient(180deg, black 76%, transparent 100%);
 }
 
+.aviation-map-shell {
+  border: 1px solid rgba(125, 211, 252, 0.16);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.08),
+    0 18px 46px rgba(2, 6, 23, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.aviation-map-shell .leaflet-pane {
+  filter: saturate(1.08) contrast(1.04);
+}
+
+.aviation-map-shell .leaflet-container {
+  background: radial-gradient(circle at 50% 40%, rgba(34, 211, 238, 0.08), transparent 38%);
+}
+
+.aviation-map-shell .leaflet-control-zoom a {
+  background: rgba(3, 12, 28, 0.88);
+  color: #f8fbff;
+  border-color: rgba(125, 211, 252, 0.16);
+}
+
+.aviation-map-shell .leaflet-control-zoom a:hover {
+  background: rgba(9, 18, 42, 0.95);
+  color: #7de9ff;
+}
+
+.aviation-map-shell .leaflet-control-attribution {
+  background: rgba(2, 6, 23, 0.75);
+  color: #9eb2cb;
+}
+
+.aviation-map-shell .aviation-route-line {
+  transition: filter 0.25s ease, opacity 0.25s ease;
+  filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.14));
+}
+
+.aviation-map-shell .aviation-route-line:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 16px rgba(34, 211, 238, 0.34)) drop-shadow(0 0 22px rgba(59, 130, 246, 0.22));
+}
+
+.aviation-map-shell .aviation-route-alternate {
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+.aviation-map-shell .aviation-route-alternate:hover {
+  opacity: 0.9;
+  filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.3));
+}
+
+.aviation-zone {
+  animation: zonePulse 6.8s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.aviation-zone--cyan {
+  filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.14));
+}
+
+.aviation-zone--orange {
+  animation-duration: 7.4s;
+  filter: drop-shadow(0 0 20px rgba(251, 146, 60, 0.14));
+}
+
+.aviation-zone--outer {
+  opacity: 0.4;
+}
+
+.aviation-zone--mid {
+  opacity: 0.82;
+}
+
+.aviation-zone--inner {
+  opacity: 1;
+}
+
+.aviation-map-shell .aviation-plane-marker-shell {
+  background: transparent;
+  border: 0;
+}
+
+.aviation-plane-marker-shell-inner {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  transform: rotate(var(--route-angle, 0deg));
+  transform-origin: center;
+  animation: planeWiggle 2.8s ease-in-out infinite;
+}
+
+.aviation-plane-marker {
+  --route-accent: #7de9ff;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  animation: planePulse 2.9s ease-in-out infinite;
+}
+
+.aviation-plane-marker span {
+  display: block;
+}
+
+.aviation-plane-glyph {
+  position: relative;
+  z-index: 1;
+  color: #f7ff4d;
+  font-size: 16px;
+  line-height: 1;
+  text-shadow:
+    0 0 8px rgba(247, 255, 77, 0.92),
+    0 0 18px rgba(247, 255, 77, 0.7);
+  transform-origin: center;
+}
+
+@keyframes planePulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes planeWiggle {
+  0%,
+  100% {
+    transform: rotate(var(--route-angle, 0deg)) translateX(-2px);
+  }
+  50% {
+    transform: rotate(var(--route-angle, 0deg)) translateX(2px);
+  }
+}
+
+@keyframes zonePulse {
+  0%,
+  100% {
+    transform: scale(0.99);
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
 .starfield {
   position: absolute;
   inset: 0;
